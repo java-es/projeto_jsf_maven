@@ -1,15 +1,17 @@
 package com.projetoJSF.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.io.Serializable;
-import java.util.Objects;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  *
@@ -37,7 +39,10 @@ public class Pessoa implements Serializable{
     @Temporal(TemporalType.DATE)
     @Column(name="dataCadastro",nullable=false)
     private Date dataCadastro;
-
+    @ManyToOne(optional=false)
+    @ForeignKey(name="fk_pessoa_sexo")
+    private Sexo sexo;
+    
     public Pessoa() {
     }
 
