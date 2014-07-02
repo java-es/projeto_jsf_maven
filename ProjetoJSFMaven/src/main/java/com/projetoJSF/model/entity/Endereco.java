@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  *
@@ -30,6 +33,11 @@ public class Endereco implements Serializable{
     private Integer numero;
     @Column(name="complemento",length = 80)
     private String complemento;
+    
+    @OneToOne(optional = true,fetch = FetchType.LAZY)
+    @ForeignKey(name="fk_endereco_pessoa")
+    private Pessoa pessoa;
+    
 
     public Endereco() {
     }
