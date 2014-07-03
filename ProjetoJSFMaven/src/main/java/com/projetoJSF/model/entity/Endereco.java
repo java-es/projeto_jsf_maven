@@ -42,26 +42,31 @@ public class Endereco implements Serializable{
     private Pessoa pessoa;
     
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_endereco_tipoLogradouro")
+    @ForeignKey(name="fk_tipoLogradouro_endereco")
     @JoinColumn(name="idTipoLogradouro",referencedColumnName = "idTipoLogradouro")
     private TipoLogradouro tipoLogradouro;
     
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_endereco_tipoEndereco")
+    @ForeignKey(name="fk_tipoEndereco_endereco")
     @JoinColumn(name="idTipoEndereco",referencedColumnName = "idTipoEndereco")
     private TipoEndereco tipoEndereco;
     
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_endereco_cidade")
+    @ForeignKey(name="fk_cidade_endereco")
     @JoinColumn(name="idCidade",referencedColumnName = "idCidade")
     private Cidade cidade;
     
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_endereco_estado")
+    @ForeignKey(name="fk_estado_endereco")
     @JoinColumn(name="idEstado",referencedColumnName = "idEstado")
     private Estado estado;
     
     public Endereco() {
+        this.pessoa = new Pessoa();
+        this.cidade = new Cidade();
+        this.estado = new Estado();
+        this.tipoEndereco = new TipoEndereco();
+        this.tipoLogradouro = new TipoLogradouro();
     }
 
     public Integer getIdEndereco() {
