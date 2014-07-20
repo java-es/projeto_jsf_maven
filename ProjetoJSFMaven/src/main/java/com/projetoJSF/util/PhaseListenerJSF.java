@@ -19,7 +19,7 @@ public class PhaseListenerJSF implements PhaseListener {
 
     @Override
     public void afterPhase(PhaseEvent fase) {
-        System.out.println("Depois da Fase: "+getPhaseId().toString());
+        System.out.println("Depois da Fase: "+fase.getPhaseId().toString());
         if(fase.getPhaseId().equals(PhaseId.RENDER_RESPONSE)){
             Session session = FacesContextUtil.getRequestSession();
             try {
@@ -38,8 +38,8 @@ public class PhaseListenerJSF implements PhaseListener {
 
     @Override
     public void beforePhase(PhaseEvent fase) {
+        System.out.println("Antes da Fase: "+fase.getPhaseId().toString());
         if(fase.getPhaseId().equals(PhaseId.RESTORE_VIEW)){
-            System.out.println("Antes da Fase: "+getPhaseId().toString());
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             FacesContextUtil.setRequestSession(session);
