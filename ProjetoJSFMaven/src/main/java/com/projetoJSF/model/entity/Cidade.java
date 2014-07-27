@@ -2,33 +2,32 @@ package com.projetoJSF.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 
-/**
- *
- * @author wanderson
- */
 @Entity
 @Table(name="cidade")
 public class Cidade implements Serializable{
-    private static final long serialVersionUID = 1L;
+    
+    private static final long serialVersionUID =  1L; 
+    
     @Id
     @GeneratedValue
-    @Column(name="idCidade",nullable=false)
+    @Column(name="IdCidade", nullable=false)
     private Integer idCidade;
-    @Column(name="nome",unique = true,nullable=false,length = 80)
+    @Column(name="Nome", length=80, nullable=false)
     private String nome;
 
-    @OneToMany
-    @ForeignKey(name="fk_cidade_endereco")
+    @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
+    @ForeignKey(name="EnderecoCidade")
     private List<Endereco> enderecos;
+    
     public Cidade() {
     }
 
@@ -59,7 +58,7 @@ public class Cidade implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.idCidade);
+        hash = 89 * hash + (this.idCidade != null ? this.idCidade.hashCode() : 0);
         return hash;
     }
 
@@ -72,9 +71,10 @@ public class Cidade implements Serializable{
             return false;
         }
         final Cidade other = (Cidade) obj;
-        if (!Objects.equals(this.idCidade, other.idCidade)) {
+        if (this.idCidade != other.idCidade && (this.idCidade == null || !this.idCidade.equals(other.idCidade))) {
             return false;
         }
         return true;
     }
+    
 }

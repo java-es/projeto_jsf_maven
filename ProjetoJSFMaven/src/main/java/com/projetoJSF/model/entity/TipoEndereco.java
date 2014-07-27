@@ -2,51 +2,41 @@ package com.projetoJSF.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 
-/**
- *
- * @author wanderson
- */
 @Entity
-@Table(name="tipoEndereco")
-public class TipoEndereco implements Serializable{
+@Table(name="tipoendereco")
+public class TipoEndereco implements Serializable {
     
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
-    @Column(name="idTipoEndereco",nullable=false)
+    @Column(name = "IdTipoEndereco", nullable = false)
     private Integer idTipoEndereco;
-     @Column(name="nome",unique = true,nullable=false,length = 80)
-    private String nome;
-    @OneToMany
-    @ForeignKey(name="fk_tipoEndereco_endereco")
+    @Column(name = "DescricaoTipoEndereco", nullable = false, length = 35)
+    private String descricaoTipoEndereco;
+    
+    @OneToMany(mappedBy = "tipoendereco", fetch = FetchType.LAZY)
+    @ForeignKey(name="EnderecoTipoEndereco")
     private List<Endereco> enderecos;
 
     public TipoEndereco() {
     }
 
-    public Integer getIdTipoEndereco() {
-        return idTipoEndereco;
+    public String getDescricaoTipoEndereco() {
+        return descricaoTipoEndereco;
     }
 
-    public void setIdTipoEndereco(Integer idTipoEndereco) {
-        this.idTipoEndereco = idTipoEndereco;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDescricaoTipoEndereco(String descricaoTipoEndereco) {
+        this.descricaoTipoEndereco = descricaoTipoEndereco;
     }
 
     public List<Endereco> getEnderecos() {
@@ -57,11 +47,12 @@ public class TipoEndereco implements Serializable{
         this.enderecos = enderecos;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.idTipoEndereco);
-        return hash;
+    public Integer getIdTipoEndereco() {
+        return idTipoEndereco;
+    }
+
+    public void setIdTipoEndereco(Integer idTipoEndereco) {
+        this.idTipoEndereco = idTipoEndereco;
     }
 
     @Override
@@ -73,9 +64,16 @@ public class TipoEndereco implements Serializable{
             return false;
         }
         final TipoEndereco other = (TipoEndereco) obj;
-        if (!Objects.equals(this.idTipoEndereco, other.idTipoEndereco)) {
+        if (this.idTipoEndereco != other.idTipoEndereco && (this.idTipoEndereco == null || !this.idTipoEndereco.equals(other.idTipoEndereco))) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + (this.idTipoEndereco != null ? this.idTipoEndereco.hashCode() : 0);
+        return hash;
     }
 }

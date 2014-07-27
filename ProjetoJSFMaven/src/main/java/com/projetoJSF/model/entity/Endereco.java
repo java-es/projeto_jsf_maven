@@ -1,7 +1,6 @@
 package com.projetoJSF.model.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,62 +12,60 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.ForeignKey;
 
-/**
- *
- * @author wanderson
- */
 @Entity
 @Table(name="endereco")
-public class Endereco implements Serializable{
+public class Endereco implements Serializable {
+    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue
-    @Column(name="idEndereco",nullable=false)
+    @Column(name="IdEndereco", nullable=false)
     private Integer idEndereco;
-    @Column(name="bairro",length = 80)
+    @Column(name="Bairro", length=80)
     private String bairro;
-    @Column(name="nomeLogradouro",length = 80)
+    @Column (name="NomeLogradouro", length=80)
     private String nomeLogradouro;
-    @Column(name="cep",length = 9)
+    @Column (name="CEP", length=9)
     private String cep;
-    @Column(name="numero")
+    @Column (name="Numero")
     private Integer numero;
-    @Column(name="complemento",length = 80)
-    private String complemento;
+    @Column (name="Complemento")
+    private Integer complemento;
     
-    @OneToOne(optional = true,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_endereco_pessoa")
-    @JoinColumn(name="idPessoa", referencedColumnName = "idPessoa")
+    @OneToOne(optional=true, fetch= FetchType.LAZY)
+    @ForeignKey(name="EnderecoPessoa")
+    @JoinColumn(name = "IdPessoa", referencedColumnName = "IdPessoa")
     private Pessoa pessoa;
     
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_tipoLogradouro_endereco")
-    @JoinColumn(name="idTipoLogradouro",referencedColumnName = "idTipoLogradouro")
-    private TipoLogradouro tipoLogradouro;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ForeignKey(name="EnderecoTipoLogradouro")
+    @JoinColumn(name = "IdTipoLogradouro", referencedColumnName = "IdTipoLogradouro")
+    private TipoLogradouro tipologradouro;
     
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_tipoEndereco_endereco")
-    @JoinColumn(name="idTipoEndereco",referencedColumnName = "idTipoEndereco")
-    private TipoEndereco tipoEndereco;
-    
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_cidade_endereco")
-    @JoinColumn(name="idCidade",referencedColumnName = "idCidade")
-    private Cidade cidade;
-    
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @ForeignKey(name="fk_estado_endereco")
-    @JoinColumn(name="idEstado",referencedColumnName = "idEstado")
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
+    @ForeignKey(name="EnderecoEstado")
+    @JoinColumn(name = "IdEstado", nullable = false)
     private Estado estado;
+        
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
+    @ForeignKey(name="EnderecoTipoEndereco")
+    @JoinColumn(name = "IdTipoEndereco", referencedColumnName="IdTipoEndereco")
+    private TipoEndereco tipoendereco;
     
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
+    @ForeignKey(name="EnderecoCidade")
+    @JoinColumn(name = "IdCidade", referencedColumnName="IdCidade")
+    private Cidade cidade;   
+
     public Endereco() {
-        this.pessoa = new Pessoa();
         this.cidade = new Cidade();
         this.estado = new Estado();
-        this.tipoEndereco = new TipoEndereco();
-        this.tipoLogradouro = new TipoLogradouro();
-    }
-
+        this.tipologradouro = new TipoLogradouro();
+        this.tipoendereco = new TipoEndereco();
+        this.pessoa = new Pessoa();
+    }    
+    
     public Integer getIdEndereco() {
         return idEndereco;
     }
@@ -109,11 +106,11 @@ public class Endereco implements Serializable{
         this.numero = numero;
     }
 
-    public String getComplemento() {
+    public Integer getComplemento() {
         return complemento;
     }
 
-    public void setComplemento(String complemento) {
+    public void setComplemento(Integer complemento) {
         this.complemento = complemento;
     }
 
@@ -125,20 +122,28 @@ public class Endereco implements Serializable{
         this.pessoa = pessoa;
     }
 
-    public TipoLogradouro getTipoLogradouro() {
-        return tipoLogradouro;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setTipoLogradouro(TipoLogradouro tipoLogradouro) {
-        this.tipoLogradouro = tipoLogradouro;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
-    public TipoEndereco getTipoEndereco() {
-        return tipoEndereco;
+    public TipoEndereco getTipoendereco() {
+        return tipoendereco;
     }
 
-    public void setTipoEndereco(TipoEndereco tipoEndereco) {
-        this.tipoEndereco = tipoEndereco;
+    public void setTipoendereco(TipoEndereco tipoendereco) {
+        this.tipoendereco = tipoendereco;
+    }
+
+    public TipoLogradouro getTipologradouro() {
+        return tipologradouro;
+    }
+
+    public void setTipologradouro(TipoLogradouro tipologradouro) {
+        this.tipologradouro = tipologradouro;
     }
 
     public Cidade getCidade() {
@@ -149,18 +154,10 @@ public class Endereco implements Serializable{
         this.cidade = cidade;
     }
 
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.idEndereco);
+        int hash = 5;
+        hash = 97 * hash + (this.idEndereco != null ? this.idEndereco.hashCode() : 0);
         return hash;
     }
 
@@ -173,9 +170,10 @@ public class Endereco implements Serializable{
             return false;
         }
         final Endereco other = (Endereco) obj;
-        if (!Objects.equals(this.idEndereco, other.idEndereco)) {
+        if (this.idEndereco != other.idEndereco && (this.idEndereco == null || !this.idEndereco.equals(other.idEndereco))) {
             return false;
         }
         return true;
     }
+        
 }
